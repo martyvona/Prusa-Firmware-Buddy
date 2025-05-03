@@ -1,137 +1,37 @@
-# Buddy
-This repository includes source code and firmware releases for the Original Prusa 3D printers based on the 32-bit ARM microcontrollers.
+# Prusa MK4/S High Temp Mod 450°C Max
+Does your Prusa MK4 have an unequenchable thirst for heat? 
+Want to print PPS and other >300°C+ or even >400°C filaments? 
 
-The currently supported models are:
-- Original Prusa MINI/MINI+
-- Original Prusa MK3.5
-- Original Prusa MK3.9
-- Original Prusa MK4
-- Original Prusa XL
-- Prusa CORE One
+If so, you've found the right github repo!
 
-## Getting Started
+This is modified firmware (currently tracking 6.3.0) that does two things:
 
-### Requirements
+1. Changes the hotend to one that uses a PT1000 sensor connected directly to the love board. No resistor swapping or amplifier boards or any other nonsense, just two wires spliced directly to the thermistor connector.
+2. It does so **with no loss in temperature resolution**.
 
-- Python 3.8 or newer
+   Using the stock NTC hotend thermistor, we get a resolution of about 0.1°C.
+   Normally, switching to a PT1000 with a 1K pullup (this is what the xBuddy board uses) results in considerably less, about 0.44°C resolution.
+   
+   This firmware has been modified to use **256x oversampling** for 2 additional bits of resolution, allowing for 14 effective bits on the otherwise 10-bit ADC.
 
-### Cloning this repository
+   These are real bits with real information, oversampling is well understood and it works. It works so well in fact, that your MK4 already uses oversampling. This just makes it use even more of it. As near as I can tell, Prusa didn't do this themselves because there was no point, 0.1°C resolution was plenty and beneath the voltage      reference variation one might see, not because there was any limitation preventing it.
 
-Run `git clone https://github.com/prusa3d/Prusa-Firmware-Buddy.git`.
+## Hardware
+*Note: none of these are affiliate links, just the raw amazon links. These are simply what I used, but certainly not the only options.*
 
-### Building (on all platforms, without an IDE)
+### Necessary hardware modifications:
+- Grab a PT1000 thermistor like [this one](https://www.amazon.com/dp/B09TT1NHSY) and splice it onto the wires of the old thermistor connector.
+- Swap out your nextruder heater block for a nickel-plated solid copper one like [this](https://www.amazon.com/POLISI3D-Temperature-Compatible-Nextruder-Accessories/dp/B0CZDL8LTW)
+- Brass nozzles can no longer be used. You'll need to switch to hardened steel/copper/tungsten/etc.
+  - I recommend using a bimetal heatbreak adapter like [this one](https://www.amazon.com/POLISI3D-Heatbreak-Compatible-Nextruder-Heaterblock/dp/B0CW91V1TJ/) and using whatever nozzle you like (that isn't brass).
+ 
+That's it! Well, and you'll have to [modify](https://help.prusa3d.com/article/flashing-custom-firmware-core-one-mk4-s-mk3-9-s-mk3-5-s_814967) your xBuddy board to accept custom firmware if you haven't already. 
+Make the swaps, then flash this firmware (you can always go back to stock if things aren't working for you) and print away!
 
-Run `python utils/build.py`. The binaries are then going to be stored under `./build/products`.
+I highly recommend PPS for your first try. It's relatively easy to print and fairly forgiving. It is prone to warping so be sure to use a wide (5-10mm or even more) brim if your print has corners or other sharp angles on the bottom.
+I advise against PEI, as cool as it seems. Aside from you needing to use a release mechanism to prevent it from fusing with the PEI print bed like a thick layer of gluestick... you really just can't print PEI on a MK4.
 
-- Without any arguments, it will build a release version of the firmware for all supported printers and bootloader settings.
-- Use `--build-type` to select build configurations to be built (`debug`, `release`).
-- Use `--preset` to select for which printers the firmware should be built.
-- By default, it will build the firmware in "prerelease mode" set to `beta`. You can change the prerelease using `--prerelease alpha`, or use `--final` to build a final version of the firmware.
-- Use `--host-tools` to include host tools in the build (`png2font`, ...)
-- Find more options using the `--help` flag!
+The limiting factor isn't the temperature, or bed adhesion. It's the magnets. 
+PEI warps so hard that it will overcome the pull stength of the print bed magnets to warp while **lifting the steel sheet, still fully adhered to the print, up off the bed with it**.
 
-#### Examples:
-
-Build the firmware for MINI and XL in `debug` mode:
-
-```bash
-python utils/build.py --preset mini,xl --build-type debug
-```
-
-Build the firmware for MINI using a custom version of gcc-arm-none-eabi (available in `$PATH`) and use `Make` instead of `Ninja` (not recommended):
-
-```bash
-python utils/build.py --preset mini --toolchain cmake/AnyGccArmNoneEabi.cmake --generator 'Unix Makefiles'
-```
-
-#### Windows 10 troubleshooting
-
-If you have python installed and in your PATH but still getting cmake error `Python3 not found.` Try running python and python3 from cmd. If one of it opens Microsoft Store instead of either opening python interpreter or complaining `'python3' is not recognized as an internal or external command,
-operable program or batch file.` Open `manage app execution aliases` and disable `App Installer` association with `python.exe` and `python3.exe`.
-
-### Development
-
-The build process of this project is driven by CMake and `build.py` is just a high-level wrapper around it. As most modern IDEs support some kind of CMake integration, it should be possible to use almost any editor for development. Below are some documents describing how to setup some popular text editors.
-
-- [Visual Studio Code](doc/editor/vscode.md)
-- [Vim](doc/editor/vim.md)
-- [Eclipse, STM32CubeIDE](doc/editor/stm32cubeide.md)
-- [Other LSP-based IDEs (Atom, Sublime Text, ...)](doc/editor/lsp-based-ides.md)
-
-#### Contributing
-
-If you want to contribute to the codebase, please read the [Contribution Guidelines](doc/contributing.md).
-
-#### XL and Puppies
-
-With the XL, the situation gets a bit more complex. The firmware of XLBuddy contains firmwares for the puppies (Dwarf and Modularbed) to flash them when necessary. We support several ways of dealing with those firmwares when developing:
-
-1. Build Dwarf/Modularbed firmware automatically and flash it on startup by XLBuddy (the default)
-    - The Dwarf & ModularBed firmware will be built from this repo.
-    - The puppies are going to be flashed on startup by the XLBuddy. The puppies have to be running the [Puppy Bootloader](http://github.com/prusa3d/Prusa-Bootloader-Puppy).
-
-2. Build Dwarf/Modularbed from a given source directory and flash it on startup by XLBuddy.
-    - Specify `DWARF_SOURCE_DIR`/`MODULARBED_SOURCE_DIR` CMake cache variable with the local repo you want to use.
-    - Example below would build modularbed's firmware from /Projects/Prusa-Firmware-Buddy-ModularBed and include it in the xlBuddy firmware.
-    ```
-    cmake .. --preset xl_release_boot -DMODULARBED_SOURCE_DIR=/Projects/Prusa-Firmware-Buddy-ModularBed
-    ```
-    - You can also specify the build directory you want to use:
-    ```
-    cmake .. --preset xl_release_boot \
-        -DMODULARBED_SOURCE_DIR=/Projects/Prusa-Firmware-Buddy-ModularBed  \
-        -DMODULARBED_BINARY_DIR=/Projects/Prusa-Firmware-Buddy-ModularBed/build
-    ```
-3. Use pre-built Dwarf/Modularbed firmware and flash it on startup by xlBuddy
-    - Specify the location of the .bin file with `DWARF_BINARY_PATH`/`MODULARBED_BINARY_PATH`.
-    - For example
-    ```
-    cmake .. --preset xl_release_boot -DDWARF_BINARY_PATH=/Downloads/dwarf-4.4.0-boot.bin
-    ```
-
-4. Do not include any puppy firmware, and do not flash the puppies by XLBuddy.
-    ```
-    -DENABLE_PUPPY_BOOTLOAD=NO
-    ```
-    - With the `ENABLE_PUPPY_BOOTLOAD` set to false, the project will disable Puppy flashing & interaction with Puppy bootloaders.
-    - It is up to you to flash the correct firmware to the puppies (noboot variant).
-
-5. Keep bootloaders but do not write firmware on boot.
-    ```
-    -DPUPPY_SKIP_FLASH_FW=YES
-    ```
-    - With the `PUPPY_SKIP_FLASH_FW` set to true, the project will disable Puppy flashing on boot.
-    - You can keep other puppies that are not debugged in the same state as before.
-    - Use puppy build config with bootloaders (e.g. `xl-dwarf_debug_boot`) on one or more puppies.
-    - Recommend breakpoint at the end of `puppy_task_body()` to prevent buddy from resetting the puppy immediately when puppy stops on breakpoint.
-
-See /ProjectOptions.cmake for more information about those cache variables.
-
-#### Running tests
-
-```bash
-mkdir build-tests
-cd build-tests
-cmake ..
-make tests
-ctest .
-```
-
-The simplest way to to debug (step through) a test is to specify CMAKE_BUILD_TYPE when configuring `cmake -DCMAKE_BUILD_TYPE=Debug ..` , build it with `make tests` as previously stated and then run the test with `gdb <path to test binary>` e.g. `gdb tests/unit/configuration_store/eeprom_unit_tests`.
-
-## Flashing Custom Firmware
-
-To install custom firmware, you have to break the appendix on the board. Learn how to in the following article https://help.prusa3d.com/article/zoiw36imrs-flashing-custom-firmware.
-
-## Feedback
-
-- [Feature Requests from Community](https://github.com/prusa3d/Prusa-Firmware-Buddy/labels/feature%20request)
-
-## Credits
-
-- [Marlin](https://marlinfw.org/) - 3D printing core driver
-- [Klipper](https://www.klipper3d.org/) - input shaper code based on Klipper
-
-## License
-
-The firmware source code is licensed under the GNU General Public License v3.0 and the graphics and design are licensed under Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0). Fonts are licensed under different license (see [LICENSE](LICENSE.md)).
+So printing PEI will likely require more ...drastic... modifications. Stay tuned!😝

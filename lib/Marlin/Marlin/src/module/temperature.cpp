@@ -239,10 +239,10 @@ Temperature thermalManager;
 #if HAS_TEMP_HEATBREAK
   heatbreak_info_t Temperature::temp_heatbreak[HOTENDS]; // = { 0 }
 
-  int16_t Temperature::mintemp_raw_HEATBREAK = HEATBREAK_RAW_LO_TEMP;
+  int32_t Temperature::mintemp_raw_HEATBREAK = HEATBREAK_RAW_LO_TEMP;
 
   #ifdef HEATBREAK_MAXTEMP
-    int16_t Temperature::maxtemp_raw_HEATBREAK = HEATBREAK_RAW_HI_TEMP;
+    int32_t Temperature::maxtemp_raw_HEATBREAK = HEATBREAK_RAW_HI_TEMP;
   #endif
 
   #if WATCH_HEATBREAK
@@ -255,10 +255,10 @@ Temperature thermalManager;
 #if HAS_TEMP_BOARD
   board_info_t Temperature::temp_board; // = { 0 }
 
-  int16_t Temperature::mintemp_raw_BOARD = BOARD_RAW_LO_TEMP;
+  int32_t Temperature::mintemp_raw_BOARD = BOARD_RAW_LO_TEMP;
 
   #ifdef BOARD_MAXTEMP
-    int16_t Temperature::maxtemp_raw_BOARD = BOARD_RAW_HI_TEMP;
+    int32_t Temperature::maxtemp_raw_BOARD = BOARD_RAW_HI_TEMP;
   #endif
 
 #endif
@@ -267,10 +267,10 @@ Temperature thermalManager;
   bed_info_t Temperature::temp_bed; // = { 0 }
   // Init min and max temp with extreme values to prevent false errors during startup
   #ifdef BED_MINTEMP
-    int16_t Temperature::mintemp_raw_BED = HEATER_BED_RAW_LO_TEMP;
+    int32_t Temperature::mintemp_raw_BED = HEATER_BED_RAW_LO_TEMP;
   #endif
   #ifdef BED_MAXTEMP
-    int16_t Temperature::maxtemp_raw_BED = HEATER_BED_RAW_HI_TEMP;
+    int32_t Temperature::maxtemp_raw_BED = HEATER_BED_RAW_HI_TEMP;
   #endif
   #if WATCH_BED
     heater_watch_t Temperature::watch_bed; // = { 0 }
@@ -287,10 +287,10 @@ Temperature thermalManager;
   chamber_info_t Temperature::temp_chamber; // = { 0 }
   #if HAS_HEATED_CHAMBER
     #ifdef CHAMBER_MINTEMP
-      int16_t Temperature::mintemp_raw_CHAMBER = HEATER_CHAMBER_RAW_LO_TEMP;
+      int32_t Temperature::mintemp_raw_CHAMBER = HEATER_CHAMBER_RAW_LO_TEMP;
     #endif
     #ifdef CHAMBER_MAXTEMP
-      int16_t Temperature::maxtemp_raw_CHAMBER = HEATER_CHAMBER_RAW_HI_TEMP;
+      int32_t Temperature::maxtemp_raw_CHAMBER = HEATER_CHAMBER_RAW_HI_TEMP;
     #endif
     #if WATCH_CHAMBER
       heater_watch_t Temperature::watch_chamber{0};
@@ -321,7 +321,7 @@ Temperature thermalManager;
 #endif
 
 #if ENABLED(TEMP_SENSOR_1_AS_REDUNDANT)
-  uint16_t Temperature::redundant_temperature_raw = 0;
+  uint32_t Temperature::redundant_temperature_raw = 0;
   float Temperature::redundant_temperature = 0.0;
 #endif
 
@@ -338,12 +338,12 @@ volatile bool Temperature::temp_meas_ready = false;
 
 #if HOTENDS
   // Init mintemp and maxtemp with extreme values to prevent false errors during startup
-  constexpr temp_range_t sensor_heater_0 { HEATER_0_RAW_LO_TEMP, HEATER_0_RAW_HI_TEMP, 0, 16383 },
-                         sensor_heater_1 { HEATER_1_RAW_LO_TEMP, HEATER_1_RAW_HI_TEMP, 0, 16383 },
-                         sensor_heater_2 { HEATER_2_RAW_LO_TEMP, HEATER_2_RAW_HI_TEMP, 0, 16383 },
-                         sensor_heater_3 { HEATER_3_RAW_LO_TEMP, HEATER_3_RAW_HI_TEMP, 0, 16383 },
-                         sensor_heater_4 { HEATER_4_RAW_LO_TEMP, HEATER_4_RAW_HI_TEMP, 0, 16383 },
-                         sensor_heater_5 { HEATER_5_RAW_LO_TEMP, HEATER_5_RAW_HI_TEMP, 0, 16383 };
+  constexpr temp_range_t sensor_heater_0 { HEATER_0_RAW_LO_TEMP, HEATER_0_RAW_HI_TEMP, 0, OSMPL(1024) },
+                         sensor_heater_1 { HEATER_1_RAW_LO_TEMP, HEATER_1_RAW_HI_TEMP, 0, OSMPL(1024) },
+                         sensor_heater_2 { HEATER_2_RAW_LO_TEMP, HEATER_2_RAW_HI_TEMP, 0, OSMPL(1024) },
+                         sensor_heater_3 { HEATER_3_RAW_LO_TEMP, HEATER_3_RAW_HI_TEMP, 0, OSMPL(1024) },
+                         sensor_heater_4 { HEATER_4_RAW_LO_TEMP, HEATER_4_RAW_HI_TEMP, 0, OSMPL(1024) },
+                         sensor_heater_5 { HEATER_5_RAW_LO_TEMP, HEATER_5_RAW_HI_TEMP, 0, OSMPL(1024) };
 
   temp_range_t Temperature::temp_range[HOTENDS] = ARRAY_BY_HOTENDS(sensor_heater_0, sensor_heater_1, sensor_heater_2, sensor_heater_3, sensor_heater_4, sensor_heater_5);
 #endif
@@ -1828,15 +1828,15 @@ void Temperature::suspend_heatbreak_fan(millis_t ms) {
   uint8_t l = 0, r = LEN, m;                                           \
   for (;;) {                                                           \
     m = (l + r) >> 1;                                                  \
-    if (!m) return short(pgm_read_word(&TBL[0][1]));                   \
-    if (m == l || m == r) return short(pgm_read_word(&TBL[LEN-1][1])); \
-    short v00 = pgm_read_word(&TBL[m-1][0]),                           \
+    if (!m) return int32_t(pgm_read_word(&TBL[0][1]));                   \
+    if (m == l || m == r) return int32_t(pgm_read_word(&TBL[LEN-1][1])); \
+    int32_t v00 = pgm_read_word(&TBL[m-1][0]),                           \
           v10 = pgm_read_word(&TBL[m-0][0]);                           \
          if (raw < v00) r = m;                                         \
     else if (raw > v10) l = m;                                         \
     else {                                                             \
-      const short v01 = short(pgm_read_word(&TBL[m-1][1])),            \
-                  v11 = short(pgm_read_word(&TBL[m-0][1]));            \
+      const int32_t v01 = int32_t(pgm_read_word(&TBL[m-1][1])),            \
+                  v11 = int32_t(pgm_read_word(&TBL[m-0][1]));            \
       return v01 + (raw - v00) * float(v11 - v01) / float(v10 - v00);  \
     }                                                                  \
   }                                                                    \
@@ -2079,7 +2079,7 @@ void Temperature::suspend_heatbreak_fan(millis_t ms) {
 
     #if HOTEND_USES_THERMISTOR
       // Thermistor with conversion table?
-      const short(*tt)[][2] = (short(*)[][2])(heater_ttbl_map[e]);
+      const int32_t(*tt)[][2] = (int32_t(*)[][2])(heater_ttbl_map[e]);
       SCAN_THERMISTOR_TABLE((*tt), heater_ttbllen_map[e]);
     #endif
 
@@ -3112,7 +3112,7 @@ void Temperature::readings_ready() {
     for (uint8_t e = 0; e < COUNT(temp_dir); e++) {
       const int8_t tdir = temp_dir[e];
       if (tdir) {
-        [[maybe_unused]] const int16_t rawtemp = temp_hotend[e].raw * tdir; // normal direction, +rawtemp, else -rawtemp
+        [[maybe_unused]] const int32_t rawtemp = temp_hotend[e].raw * tdir; // normal direction, +rawtemp, else -rawtemp
         const bool heater_on = (temp_hotend[e].target > 0
           #if ENABLED(PIDTEMP)
             || temp_hotend[e].soft_pwm_amount > 0

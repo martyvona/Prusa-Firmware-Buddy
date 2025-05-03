@@ -23,12 +23,12 @@
 
 #include "../../inc/MarlinConfig.h"
 
-#define OVERSAMPLENR 256
+#define OVERSAMPLENR 64
 #define OV(N) (int32_t((N) * (OVERSAMPLENR)))
 
 #define OSMPL(N) (int32_t((N) * (OVERSAMPLENR) - 1))
 
-#define MAXVAL 262143
+#define MAXVAL 6553
 
 #define ANY_THERMISTOR_IS(n) (THERMISTOR_HEATER_0 == n || THERMISTOR_HEATER_1 == n || THERMISTOR_HEATER_2 == n || THERMISTOR_HEATER_3 == n || THERMISTOR_HEATER_4 == n || THERMISTOR_HEATER_5 == n || THERMISTORBED == n || THERMISTORCHAMBER == n || TEMP_SENSOR_HEATBREAK == n  || TEMP_SENSOR_BOARD == n)
 

@@ -7,15 +7,16 @@ If so, you've found the right github repo!
 This is modified firmware (currently tracking 6.3.0) that does two things:
 
 1. Changes the hotend to one that uses a PT1000 sensor connected directly to the love board. No resistor swapping or amplifier boards or any other nonsense, just two wires spliced directly to the thermistor connector.
-2. It does so **with no loss in temperature resolution**.
+2. It does so **with almost no loss in temperature resolution**.
 
    Using the stock NTC hotend thermistor, we get a resolution of about 0.1°C.
-   Normally, switching to a PT1000 with a 1K pullup (this is what the xBuddy board uses) results in considerably less, about 0.44°C resolution.
+   Normally, switching to a PT1000 with a 1K pullup (this is what the xBuddy board uses) results in considerably less, about 0.5°C resolution.
+
+   The MK4 already uses something called oversampling to squeeze out an extra 2 bits of resolution. The great thing about oversampling is it works.
+   In fact, **oversampling is like violence: if it's not working, just use more of it**.
    
-   This firmware has been modified to use **256x oversampling** for 2 additional bits of resolution, allowing for 14 effective bits on the otherwise 10-bit ADC.
-
-   These are real bits with real information, oversampling is well understood and it works. It works so well in fact, that your MK4 already uses oversampling. This just makes it use even more of it. As near as I can tell, Prusa didn't do this themselves because there was no point, 0.1°C resolution was plenty and beneath the voltage      reference variation one might see, not because there was any limitation preventing it.
-
+   With that in mind, this firmware has been modified to use **64x oversampling** instead of the stock 16x for a resolution of about **0.2°C** resolution. This is still plenty, and close to the tolerance of the voltage reference anyway.
+   
 ## Hardware
 *Note: none of these are affiliate links, just the raw amazon links. These are simply what I used, but certainly not the only options.*
 

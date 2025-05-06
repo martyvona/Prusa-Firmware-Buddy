@@ -1983,7 +1983,7 @@ void Temperature::suspend_heatbreak_fan(millis_t ms) {
 #if HOTENDS
   // Derived from RepRap FiveD extruder::getTemperature()
   // For hot end temperature measurement.
-  float Temperature::analog_to_celsius_hotend(const int raw, const uint8_t e) {
+  float Temperature::analog_to_celsius_hotend(const int32_t raw, const uint8_t e) {
     #if ENABLED(TEMP_SENSOR_1_AS_REDUNDANT)
       if (e > HOTENDS)
     #else
@@ -2086,13 +2086,13 @@ void Temperature::suspend_heatbreak_fan(millis_t ms) {
     return 0;
   }
 #endif // HOTENDS
-float scan_thermistor_table_bed(const int raw){
+float scan_thermistor_table_bed(const int32_t raw){
     SCAN_THERMISTOR_TABLE(BED_TEMPTABLE,BED_TEMPTABLE_LEN);
 }
 #if HAS_HEATED_BED
   // Derived from RepRap FiveD extruder::getTemperature()
   // For bed temperature measurement.
-  float Temperature::analog_to_celsius_bed(const int raw) {
+  float Temperature::analog_to_celsius_bed(const int32_t raw) {
     #if ENABLED(HEATER_BED_USER_THERMISTOR)
       return user_thermistor_to_deg_c(CTI_BED, raw);
     #elif ENABLED(HEATER_BED_USES_THERMISTOR)
@@ -2133,7 +2133,7 @@ float scan_thermistor_table_bed(const int raw){
 #if HAS_TEMP_CHAMBER
   // Derived from RepRap FiveD extruder::getTemperature()
   // For chamber temperature measurement.
-  float Temperature::analog_to_celsius_chamber(const int raw) {
+  float Temperature::analog_to_celsius_chamber(const int32_t raw) {
     #if ENABLED(HEATER_CHAMBER_USER_THERMISTOR)
       return user_thermistor_to_deg_c(CTI_CHAMBER, raw);
     #elif ENABLED(HEATER_CHAMBER_USES_THERMISTOR)
@@ -2151,7 +2151,7 @@ float scan_thermistor_table_bed(const int raw){
 #if HAS_TEMP_HEATBREAK
   // Derived from RepRap FiveD extruder::getTemperature()
   // For heatbreak temperature measurement.
-  float Temperature::analog_to_celsius_heatbreak(const int raw) {
+  float Temperature::analog_to_celsius_heatbreak(const int32_t raw) {
     #if ENABLED(HEATBREAK_USER_THERMISTOR)
       return user_thermistor_to_deg_c(CTI_HEATBREAK, raw);
     #elif ENABLED(HEATBREAK_USES_THERMISTOR)
@@ -2175,7 +2175,7 @@ float scan_thermistor_table_bed(const int raw){
 #if HAS_TEMP_BOARD
   // Derived from RepRap FiveD extruder::getTemperature()
   // For ambient temperature measurement.
-  float Temperature::analog_to_celsius_board(const int raw) {
+  float Temperature::analog_to_celsius_board(const int32_t raw) {
     #if ENABLED(BOARD_USER_THERMISTOR)
       return user_thermistor_to_deg_c(CTI_BOARD, raw);
     #elif ENABLED(BOARD_USES_THERMISTOR)

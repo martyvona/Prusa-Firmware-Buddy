@@ -23,8 +23,9 @@
 
 #include "../../inc/MarlinConfig.h"
 
-#define OVERSAMPLENR 64
-#define OV(N) (int32_t((N) * (OVERSAMPLENR)))
+#define OVERSAMPLENR 16
+#define OV(N) (int32_t((4*N) * (OVERSAMPLENR)))
+#define OVPT(N) (int32_t((N) * (OVERSAMPLENR)))
 
 #define OSMPL(N) (int32_t((N) * (OVERSAMPLENR) - 1))
 
@@ -39,8 +40,8 @@
 #define PtA 3.9083E-3
 #define PtB -5.775E-7
 #define PtRt(T,R0) ((R0) * (1.0 + (PtA) * (T) + (PtB) * (T) * (T)))
-#define PtAdVal(T,R0,Rup) (int32_t)(1024 / (Rup / PtRt(T, R0) + 1))
-#define PtLine(T,R0,Rup) { OV(PtAdVal(T, R0, Rup)), T }
+#define PtAdVal(T,R0,Rup) (int32_t)(4096 / (Rup / PtRt(T, R0) + 1))
+#define PtLine(T,R0,Rup) { OVPT(PtAdVal(T, R0, Rup)), T }
 
 #if ANY_THERMISTOR_IS(1) // beta25 = 4092 K, R25 = 100 kOhm, Pull-up = 4.7 kOhm, "EPCOS"
   #include "thermistor_1.h"

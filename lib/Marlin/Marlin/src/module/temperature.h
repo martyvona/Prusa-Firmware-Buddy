@@ -555,21 +555,21 @@ class Temperature {
     #endif
 
     #if HOTENDS
-      static float analog_to_celsius_hotend(const int raw, const uint8_t e);
+      static float analog_to_celsius_hotend(const int32_t raw, const uint8_t e);
     #endif
 
     #if HAS_HEATED_BED
-      static float analog_to_celsius_bed(const int raw);
+      static float analog_to_celsius_bed(const int32_t raw);
     #endif
     #if HAS_TEMP_CHAMBER
-      static float analog_to_celsius_chamber(const int raw);
+      static float analog_to_celsius_chamber(const int32_t raw);
     #endif
     #if HAS_TEMP_BOARD
-      static float analog_to_celsius_board(const int raw);
+      static float analog_to_celsius_board(const int32_t raw);
     #endif
 
     #if HAS_TEMP_HEATBREAK
-      static float analog_to_celsius_heatbreak(const int raw);
+      static float analog_to_celsius_heatbreak(const int32_t raw);
     #endif
 
     #if FAN_COUNT > 0

@@ -25,7 +25,7 @@ If so, you've found the right github repo!
 
    This gets us a full 14-bits of real resolution (oversampling is not a gimmick, it really gets you better accuracy/resolution at the trade off lower sampling rate)!
 
-   And as any good engineer will tell you, **bits are like violence: if it's not working, just use more**.
+   And as any good engineer will tell you, ***bits are like violence: if it's not working, just use more***.
    
    Ultimately, this modification gets us a resolution of about **0.2°C** resolution with a PT1000 with no side effects or downsides. While still slightly less than the 0.1°C with the stock hotend thermistor, it's still plenty.
    

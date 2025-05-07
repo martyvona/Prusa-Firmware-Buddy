@@ -22,6 +22,17 @@ This is modified firmware (currently tracking 6.3.0) that does two things:
    And as any good engineer will tell you, **bits are like violence: if it's not working, just use more**.
    
    Ultimately, this modification gets us a resolution of about **0.2°C** resolution with a PT1000 with no side effects or downsides. While still slightly less than the 0.1°C with the stock hotend thermistor, it's still plenty.
+
+## ~Almost~ No Resolution Loss
+
+There is a second experimental version of this firmware that allows one to use a PT1000 **with no resolution loss whatsoever**. You had 0.1°C with the stock thermistor, and you'll still have 0.1°C resolution with a PT1000.
+This is acheived using the same tricks in the above firmeware, but cranks up the oversampling to 64x for a full 15 bits of resolution. **HOWEVER**, this is well below the noise floor for the voltage reference, so I am unsure if there is any real utility gained here.
+Beyond that, this firmware also makes temperature measurement take 4 times as long. This has implications in how fast the printer will react to the load cell amongst other things. 
+In my experience, it just means it might give the corner of your steel sheet a nice firm tap when first homing, but otherwise I've noticed no ill effects. 
+
+If you're unsure which firmware to use, use the other one, not this one. If you want the absolute best possible temperature accuracy (maybe) and are ok with various small side effects that may or may not be noticeable, go with this one. 
+
+Personally, I use this firmware, but I also pull out USB drives without ejecting them first.
    
 ## Hardware
 *Note: none of these are affiliate links, just the raw amazon links. These are simply what I used, but certainly not the only options.*
@@ -39,4 +50,16 @@ I highly recommend PPS for your first try. It's relatively easy to print and fai
 
 PEI is harder but possible. Be sure to use a release agent (hot glue stick, magigoop, some other adhesive) to prevent the PEI from fusing with the PEI print surface.
 The primary issue wth PEI is its a drippy dribbly boi. And for larger objects, it can warp hard enough that it will lift the steel sheet off the print bed. 
-Meaning it can overpower the strength of the magnets holding the steel sheet onto the bed. In those cases, printing on something like a glass sheet is non-optional. 
+Meaning it can overpower the strength of the magnets holding the steel sheet onto the bed. In those cases, printing on something like a glass sheet is non-optional.
+
+
+### Tips fore PEI-GF30
+I assume most of this will translate to regular PEI, but I am not sure. I've only tried PEI-GF30. 
+
+- PEI is like Polycarbonate on crack, it needs tons of heat and pressure to get strong layer adhesion. This means printing hot, I print at 390-400°C. PEI doesn't even start to thermally degrade until ~510°C so its ok if you go above the max on the spool.
+- To achieve pressure, you need to use line widths a fair bit wider than your nozzle diameter, foricng it to 'smoosh' the new layer against the previous one more. I use about 130-150% the nozzle diameter for all line widths except top layer, which I do 110%-120%.
+- PEI is drippy, oozy, dribbly, and prone to demiblobbing, which are extra large blobs that will ruin the print if they land in the wrong spot. The best way to combat this is retraction. I use **5mm of retraction minimum** along with 1mm minimum print distance and 100% retract on wipe and layer change. Basically, retract a lot, and retract often. Reducing temperature has little to no impact on this, but will severely weaken your layer adhesion.
+- Bed temp is 110-115°C. 5-10mm wide brims with 0mm separation may be necessary for some prints.
+- PEI does not like speed. First layer speed should be 10mm/s, and print speeds should not exceed 50mm/s, even for infill. If you go faster, you're gonna have a bad time, and will see a lot more demiblobs as well.
+- I haven't tried but I would expect using a chamber, heated or otherwise, would help with all of these issues to some degree.
+- **DRY YOUR PEI**. I've been printing it completely undried, so imagine the results you might get if you actually bother to dry it at the suggested 120°C for 4 hours! If the spool itself will even survive that! 

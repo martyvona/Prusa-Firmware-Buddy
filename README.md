@@ -27,7 +27,8 @@ If so, you've found the right github repo!
 
    And as any good engineer will tell you, ***bits are like violence: if it's not working, just use more***.
    
-   Ultimately, this modification gets us a resolution of about **0.2°C** resolution with a PT1000 with no side effects or downsides. While still slightly less than the 0.1°C with the stock hotend thermistor, it's still plenty.
+   Ultimately, this modification gets us a resolution of about **0.2°C** resolution with a PT1000 with no side effects or downsides. While still slightly less than the 0.1°C with the stock hotend thermistor, it's still plenty. 0.1°C is frankly overkill and you're not really getting 0.1°C anyway due to the noise floor of the built- 
+   in voltage reference. 
    
    
 ## Hardware

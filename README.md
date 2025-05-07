@@ -38,7 +38,7 @@ If so, you've found the right github repo!
 
 ### Necessary hardware modifications:
 - Grab a PT1000 thermistor like [this one](https://www.amazon.com/dp/B09TT1NHSY) and splice it onto the wires of the old thermistor connector.
-  Note: Its butt will hang out a little bit from the heatblock. It's not great, but it's fine.
+  **Note: Its butt will hang out a little bit from the heatblock. It's not great, but it's fine.**
 - Swap out your nextruder heater block for a nickel-plated solid copper one like [this](https://www.amazon.com/POLISI3D-Temperature-Compatible-Nextruder-Accessories/dp/B0CZDL8LTW)
 - Brass nozzles can no longer be used. You'll need to switch to hardened steel/copper/tungsten/etc.
   - I recommend using a bimetal heatbreak adapter like [this one](https://www.amazon.com/POLISI3D-Heatbreak-Compatible-Nextruder-Heaterblock/dp/B0CW91V1TJ/) and using whatever nozzle you like (that isn't brass).

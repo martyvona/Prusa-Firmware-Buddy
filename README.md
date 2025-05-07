@@ -61,7 +61,7 @@ The primary issue wth PEI is its a drippy dribbly boi. And for larger objects, i
 Meaning it can overpower the strength of the magnets holding the steel sheet onto the bed. In those cases, printing on something like a glass sheet is non-optional.
 
 
-### Tips fore PEI-GF30
+### Tips for PEI-GF30
 I assume most of this will translate to regular PEI, but I am not sure. I've only tried PEI-GF30. 
 
 - PEI is like Polycarbonate on crack, it needs tons of heat and pressure to get strong layer adhesion. This means printing hot, I print at 390-400°C. PEI doesn't even start to thermally degrade until ~510°C so its ok if you go above the max on the spool.

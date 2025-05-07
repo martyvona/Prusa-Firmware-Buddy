@@ -28,19 +28,7 @@ If so, you've found the right github repo!
    And as any good engineer will tell you, **bits are like violence: if it's not working, just use more**.
    
    Ultimately, this modification gets us a resolution of about **0.2°C** resolution with a PT1000 with no side effects or downsides. While still slightly less than the 0.1°C with the stock hotend thermistor, it's still plenty.
-
-## ~Almost~ No Resolution Loss
-
-There is a second experimental version of this firmware that allows one to use a PT1000 **with no resolution loss whatsoever**. You had 0.1°C with the stock thermistor, and you'll still have 0.1°C resolution with a PT1000.
-This is acheived using the same tricks in the above firmeware, but cranks up the oversampling to 64x for a full 15 bits of resolution. 
-
-**HOWEVER**, this is well below the noise floor for the voltage reference, so I am unsure if there is any real utility gained here.
-Beyond that, this firmware also makes temperature measurement take 4 times as long. This has implications in how fast the printer will react to the load cell amongst other things. 
-In my experience, it just means it might give the corner of your steel sheet a nice firm tap when first homing, but otherwise I've noticed no ill effects. 
-
-If you're unsure which firmware to use, use the other one, not this one. If you want the absolute best possible temperature accuracy (maybe) and are ok with various small side effects that may or may not be noticeable, go with this one. 
-
-Personally, I use this firmware, but I also pull out USB drives without ejecting them first.
+   
    
 ## Hardware
 *Note: none of these are affiliate links, just the raw amazon links. These are simply what I used, but certainly not the only options.*

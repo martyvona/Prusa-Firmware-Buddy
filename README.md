@@ -6,7 +6,7 @@ If so, you've found the right github repo!
 
 
 ![Handsome PEI Benchy](https://github.com/user-attachments/assets/930005fe-8001-42fb-bdfa-72d0f1acdd49)
-*Benchy printed with this firmware at 390°C in PEI-GF30*
+*This handsome Benchy was printed with this firmware at 390°C using PEI-GF30 filament*
 
 
 

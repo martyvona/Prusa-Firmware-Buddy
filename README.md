@@ -4,7 +4,13 @@ Want to print PPS, PEI, and other >300°C+ or even >400°C filaments?
 
 If so, you've found the right github repo!
 
-This is modified firmware (currently tracking 6.3.0) that does two things:
+
+![Handsome PEI Benchy](https://github.com/user-attachments/assets/930005fe-8001-42fb-bdfa-72d0f1acdd49)
+*Benchy printed with this firmware at 390°C in PEI-GF30*
+
+
+
+### This is modified firmware (currently tracking 6.3.0) that does two things:
 
 1. Changes the hotend to one that uses a PT1000 sensor connected directly to the love board. No resistor swapping or amplifier boards or any other nonsense, just two wires spliced directly to the thermistor connector.
 2. It does so **with almost no loss in temperature resolution**.
@@ -26,7 +32,9 @@ This is modified firmware (currently tracking 6.3.0) that does two things:
 ## ~Almost~ No Resolution Loss
 
 There is a second experimental version of this firmware that allows one to use a PT1000 **with no resolution loss whatsoever**. You had 0.1°C with the stock thermistor, and you'll still have 0.1°C resolution with a PT1000.
-This is acheived using the same tricks in the above firmeware, but cranks up the oversampling to 64x for a full 15 bits of resolution. **HOWEVER**, this is well below the noise floor for the voltage reference, so I am unsure if there is any real utility gained here.
+This is acheived using the same tricks in the above firmeware, but cranks up the oversampling to 64x for a full 15 bits of resolution. 
+
+**HOWEVER**, this is well below the noise floor for the voltage reference, so I am unsure if there is any real utility gained here.
 Beyond that, this firmware also makes temperature measurement take 4 times as long. This has implications in how fast the printer will react to the load cell amongst other things. 
 In my experience, it just means it might give the corner of your steel sheet a nice firm tap when first homing, but otherwise I've noticed no ill effects. 
 

@@ -38,10 +38,5 @@ Make the swaps, then flash this firmware (you can always go back to stock if thi
 I highly recommend PPS for your first try. It's relatively easy to print and fairly forgiving. It is prone to warping so be sure to use a wide (5-10mm or even more) brim if your print has corners or other sharp angles on the bottom.
 
 PEI is harder but possible. Be sure to use a release agent (hot glue stick, magigoop, some other adhesive) to prevent the PEI from fusing with the PEI print surface.
-The primary issue wth PEI is its a drippy dribbly boi. And for larger objects, it can warp hard enough that it will lift the steel sheet off the print bed. Meaning it can overpower the strength of the magnets holding the steel sheet onto the bed. In those cases, printing on something like a glass sheet is non-optional. 
-
-
-The limiting factor isn't the temperature, or bed adhesion. It's the magnets. 
-PEI warps so hard that it will overcome the pull stength of the print bed magnets to warp while **lifting the steel sheet, still fully adhered to the print, up off the bed with it**.
-
-So printing PEI will likely require more ...drastic... modifications. Stay tuned!😝
+The primary issue wth PEI is its a drippy dribbly boi. And for larger objects, it can warp hard enough that it will lift the steel sheet off the print bed. 
+Meaning it can overpower the strength of the magnets holding the steel sheet onto the bed. In those cases, printing on something like a glass sheet is non-optional. 

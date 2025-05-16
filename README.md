@@ -21,7 +21,7 @@ If so, you've found the right github repo!
    However, the ADC on the xBuddy is actually a 12-bit ADC, and being used in 12-bit mode, but the Prusa MK4 firmware simply discards the last 2 bits to make it compatible with the Marlin codebase it is based upon, which expects a 10-bit ADC value.
    Prusa then uses 16x oversampling to regain those lost 2 bits.
    
-   This branch, besides switching out the hotend thermistor for a PT1000, modifies the Marlin so it can support a 12-bit ADC, and keeps Prusa's 16x overssampling.
+   This branch, besides switching out the hotend thermistor for a PT1000, modifies the Marlin code to support a 12-bit ADC, and keeps Prusa's 16x overssampling.
 
    This gets us a full 14-bits of real resolution (oversampling is not a gimmick, it really gets you better accuracy/resolution at the trade off lower sampling rate)!
 

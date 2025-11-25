@@ -136,6 +136,9 @@ ProbeAnalysisBase::Result ProbeAnalysisBase::Analyse() {
         const char *feature;
         float value;
         if (HasOutOfRangeFeature(features, &feature, &value)) {
+            SERIAL_ECHO_START();
+            SERIAL_ECHOLNPAIR("feature out of range: ", feature);
+            SERIAL_ECHOLNPAIR_F("feature value: ", value);
             return Result::Bad("feature-out-of-range");
         }
     }
@@ -620,7 +623,8 @@ bool ProbeAnalysisBase::HasOutOfRangeFeature(Features &features, const char **fe
         return true;
     }
     auto compressedvsDecompressedAngleAfter = features.compressedLine.CalculateAngle(features.afterDecompressionLine, false);
-    if (std::abs(compressedvsDecompressedAngleAfter) > 40) {
+//    if (std::abs(compressedvsDecompressedAngleAfter) > 40) { 
+    if (std::abs(compressedvsDecompressedAngleAfter) > 60) { //vona Nov 25 2025
         *feature = "angle_after";
         *value = compressedvsDecompressedAngleAfter;
         return true;

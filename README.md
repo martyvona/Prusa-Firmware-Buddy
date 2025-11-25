@@ -1,3 +1,14 @@
+# Prusa MK4/S Bed Probe Mod + High Temp Mod
+I kept getting "nozzle cleaning failed" attempting to print Siraya PPA-CF Core on MK4S with [metacollin's high temp mod](https://github.com/metacollin/Prusa-Firmware-Buddy).
+
+This fork adds an additional mod that relaxes one of the many parameters of the nozzle strain gage probe logic to try to address this.
+
+This for is also rebased onto upstream 6.4.0 from Prusa.
+
+**This is very experimental.  USE AT YOUR OWN RISK.**
+
+Remainder of this readme is from upstream.
+
 # Buddy
 This repository includes source code and firmware releases for the Original Prusa 3D printers based on the 32-bit ARM microcontrollers.
 

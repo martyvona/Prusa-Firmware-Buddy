@@ -3,7 +3,7 @@ I kept getting "nozzle cleaning failed" attempting to print Siraya PPA-CF Core o
 
 This fork adds an additional mod that relaxes one of the many parameters of the nozzle strain gage probe logic to try to address this.
 
-This for is also rebased onto upstream 6.4.0 from Prusa.
+This fork is also rebased onto upstream 6.4.0 from Prusa.
 
 **This is very experimental.  USE AT YOUR OWN RISK.**
 
